@@ -1,0 +1,292 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a User microservice with CRUD operations in GoLang.",
+        "title": "User Microservice API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/register": {
+            "post": {
+                "description": "Register a new user and save their information in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Register a new user",
+                "parameters": [
+                    {
+                        "description": "User registration data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/resetpassword": {
+            "post": {
+                "description": "Initiates a password reset process for a user by their email or ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Reset a user's password",
+                "parameters": [
+                    {
+                        "description": "Password reset request data",
+                        "name": "resetRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ResetPasswordDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password reset initiated",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "description": "Add a new user to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create a new user",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/keycloak/{id}": {
+            "get": {
+                "description": "Retrieve minimal user information for Keycloak authentication purposes",
+                "summary": "Get user info for Keycloak",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserKeycloakDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "description": "Get a user by their ID",
+                "summary": "Get user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserDTO"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update user details",
+                "summary": "Update user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.UserDTO"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete user by their ID",
+                "summary": "Delete user by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.ResetPasswordDTO": {
+            "description": "Reset password request data",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "forgetfuluser@email.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "newpassword"
+                }
+            }
+        },
+        "models.UserDTO": {
+            "description": "User model",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "john@example.com"
+                },
+                "groupID": {
+                    "type": "string",
+                    "example": "2"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "1234567890"
+                },
+                "role": {
+                    "type": "string",
+                    "example": "volunteer"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "John Doe"
+                }
+            }
+        },
+        "models.UserKeycloakDTO": {
+            "type": "object",
+            "properties": {
+                "groupID": {
+                    "type": "string",
+                    "example": "2"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "volunteer"
+                    ]
+                },
+                "username": {
+                    "type": "string",
+                    "example": "John Doe"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "OAuth2Application": {
+            "type": "oauth2",
+            "flow": "application",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+                "admin": "Grants read and write access to administrative information",
+                "keycloak": "Keycloak access",
+                "teamlead": "Team lead access",
+                "volunteer": "Volunteer access"
+            }
+        }
+    }
+}
